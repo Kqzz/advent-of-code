@@ -27,7 +27,6 @@ for g in data:
     for l in g[0]:
         if g[1].count(l) > 0 and g[2].count(l) > 0:
             common = l
-    
     sums += val(common)
 
 print(sums)
