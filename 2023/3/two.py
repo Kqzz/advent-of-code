@@ -44,8 +44,6 @@ def grab(matrix, x, y):
     if element == ".":
         return None
 
-    print(matrix[x])
-
     if element.isdigit():
         # search for remaining digits of number
         miny = y
@@ -84,16 +82,25 @@ def adjacent_coordinates(x, y):
 
 
 matrix = [list(line) for line in lines]
+total = []
 
 for x, row in enumerate(matrix):
     for y, col in enumerate(row):
         element = grab(matrix, x, y)
-        if element is None:
-            continue
-        if type(element) is Part:
-            for coord in adjacent_coordinates(x, y):
-                adj = grab(matrix, *coord)
-                if type(adj) is Number and adj not in numbers:
-                    numbers.append(adj)
 
-print(sum(numbers))
+        adjacent_numbers = []
+
+        if element is None or type(element) is Number:
+            continue
+
+        if element.part == "*":
+            for adjcoord in adjacent_coordinates(x, y):
+                adjacent = grab(matrix, *adjcoord)
+                if type(adjacent) is Number and adjacent not in adjacent_numbers:
+                    adjacent_numbers.append(adjacent)
+
+        print(adjacent_numbers)
+        if len(adjacent_numbers) == 2:
+            total.append(adjacent_numbers[0].n * adjacent_numbers[1].n)
+
+print(sum(total))
